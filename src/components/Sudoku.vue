@@ -1,9 +1,10 @@
 <template>
     <div class="mt-5">
         <div class="flex items-center justify-center my-3">
-            <button class="mr-2" @click="solve()">
+            <button class="mr-2" @click="startResolving()">
                 <svg
-                    class="w-10 h-10 text-gray-800 hover:text-green-500"
+                    :class="[resolving ? 'text-green-500' : 'text-gray-800']"
+                    class="w-10 h-10 hover:text-green-500"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -16,20 +17,41 @@
                 </svg>
             </button>
 
-            <select-difficulty
+            <dropdown
+                title="Difficulty"
+                :options="[
+                    'Easy',
+                    'Medium',
+                    'Hard',
+                    'Very hard',
+                    'Insane',
+                    'Inhuman',
+                ]"
+                event="change-difficulty"
                 @change-difficulty="createBoard($event)"
-            ></select-difficulty>
+            ></dropdown>
+
+            <dropdown
+                title="Speed"
+                :options="['Slow', 'Medium', 'Fast']"
+                event="change-speed"
+                @change-speed="changeSpeed($event)"
+            ></dropdown>
         </div>
 
         <div class="mx-auto w-auto">
             <grid :board="board"></grid>
+        </div>
+
+        <div class="flex justify-center mt-1">
+            {{ counter }}
         </div>
     </div>
 </template>
 
 <script>
 import Grid from "./Grid.vue";
-import SelectDifficulty from "./SelectDifficulty.vue";
+import Dropdown from "./Dropdown.vue";
 import sudoku from "../sudoku";
 
 export default {
@@ -37,13 +59,15 @@ export default {
 
     components: {
         Grid,
-        SelectDifficulty,
+        Dropdown,
     },
 
     data() {
         return {
             board: [],
-            stop: false,
+            resolving: false,
+            speed: 200,
+            counter: 0,
         };
     },
 
@@ -53,10 +77,23 @@ export default {
 
     methods: {
         sleep() {
-            return new Promise((resolve) => setTimeout(resolve, 5));
+            return new Promise((resolve) => setTimeout(resolve, this.speed));
+        },
+
+        changeSpeed(speed) {
+            this.speed = { Slow: 200, Medium: 100, Fast: 0 }[speed];
+        },
+
+        startResolving() {
+            if (this.resolving) return;
+
+            this.resolving = true;
+            this.solve();
         },
 
         createBoard(difficulty = "Easy") {
+            this.resolving = false;
+            this.counter = 0;
             this.board = [];
 
             const board = {
@@ -95,6 +132,8 @@ export default {
                 }
             }
 
+            this.resolving = false;
+
             return [-1, -1];
         },
 
@@ -128,6 +167,10 @@ export default {
         },
 
         async solve() {
+            if (!this.resolving) return true;
+
+            this.counter++;
+
             await this.sleep();
 
             const [row, col] = this.empty();
