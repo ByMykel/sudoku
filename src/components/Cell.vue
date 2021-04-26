@@ -19,6 +19,10 @@ export default {
 
     computed: {
         colorCell() {
+            if (this.cell.selected) {
+                return "bg-yellow-200";
+            }
+
             if (this.cell.visited && this.cell.correct) {
                 return "bg-green-200";
             }

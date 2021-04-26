@@ -66,7 +66,7 @@ export default {
         return {
             board: [],
             resolving: false,
-            speed: 200,
+            speed: 300,
             counter: 0,
         };
     },
@@ -81,7 +81,7 @@ export default {
         },
 
         changeSpeed(speed) {
-            this.speed = { Slow: 200, Medium: 100, Fast: 0 }[speed];
+            this.speed = { Slow: 300, Medium: 150, Fast: 0 }[speed];
         },
 
         startResolving() {
@@ -116,6 +116,7 @@ export default {
 
                     this.board[row].push({
                         number: number,
+                        selected: false,
                         visited: null,
                         correct: null,
                     });
@@ -167,11 +168,7 @@ export default {
         },
 
         async solve() {
-            if (!this.resolving) return true;
-
             this.counter++;
-
-            await this.sleep();
 
             const [row, col] = this.empty();
 
@@ -180,9 +177,21 @@ export default {
             }
 
             for (let i = 1; i < 10; i++) {
+                this.board[row].splice(col, 1, {
+                    number: i.toString(),
+                    selected: true,
+                    visited: false,
+                    correct: false,
+                });
+
+                await this.sleep();
+
+                if (!this.resolving) return true;
+
                 if (this.check(i, row, col)) {
                     this.board[row].splice(col, 1, {
                         number: i,
+                        selected: false,
                         visited: true,
                         correct: true,
                     });
@@ -193,10 +202,18 @@ export default {
 
                     this.board[row].splice(col, 1, {
                         number: "",
+                        selected: false,
                         visited: true,
                         correct: false,
                     });
                 }
+
+                this.board[row].splice(col, 1, {
+                    number: "",
+                    selected: false,
+                    visited: true,
+                    correct: false,
+                });
             }
 
             return false;
