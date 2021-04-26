@@ -96,7 +96,7 @@ export default {
             this.counter = 0;
             this.board = [];
 
-            const board = {
+            this.board = {
                 Easy: sudoku.getEasy(),
                 Medium: sudoku.getMedium(),
                 Hard: sudoku.getHard(),
@@ -104,24 +104,15 @@ export default {
                 Insane: sudoku.getInsane(),
                 Inhuman: sudoku.getInhuman(),
             }[difficulty];
+        },
 
-            for (let row = 0; row < 9; row++) {
-                this.board.push([]);
-
-                for (let col = 0; col < 9; col++) {
-                    let number =
-                        board[row][col] === "."
-                            ? ""
-                            : parseInt(board[row][col]);
-
-                    this.board[row].push({
-                        number: number,
-                        selected: false,
-                        visited: null,
-                        correct: null,
-                    });
-                }
-            }
+        setCell(row, col, number, selected, visited, correct) {
+            this.board[row].splice(col, 1, {
+                number: number,
+                selected: selected,
+                visited: visited,
+                correct: correct,
+            });
         },
 
         empty() {
@@ -152,12 +143,10 @@ export default {
             }
 
             const rowStart = 3 * Math.trunc(row / 3);
-            const rowStop = 3 * Math.trunc(row / 3) + 3;
             const colStart = 3 * Math.trunc(col / 3);
-            const colStop = 3 * Math.trunc(col / 3) + 3;
 
-            for (let i = rowStart; i < rowStop; i++) {
-                for (let j = colStart; j < colStop; j++) {
+            for (let i = rowStart; i < rowStart + 3; i++) {
+                for (let j = colStart; j < colStart + 3; j++) {
                     if (this.board[i][j].number === number) {
                         return false;
                     }
@@ -177,43 +166,23 @@ export default {
             }
 
             for (let i = 1; i < 10; i++) {
-                this.board[row].splice(col, 1, {
-                    number: i.toString(),
-                    selected: true,
-                    visited: false,
-                    correct: false,
-                });
+                this.setCell(row, col, i.toString(), true, false, false);
 
                 await this.sleep();
 
                 if (!this.resolving) return true;
 
                 if (this.check(i, row, col)) {
-                    this.board[row].splice(col, 1, {
-                        number: i,
-                        selected: false,
-                        visited: true,
-                        correct: true,
-                    });
+                    this.setCell(row, col, i, false, true, true);
 
                     if (await this.solve()) {
                         return true;
                     }
 
-                    this.board[row].splice(col, 1, {
-                        number: "",
-                        selected: false,
-                        visited: true,
-                        correct: false,
-                    });
+                    this.setCell(row, col, "", false, true, false);
                 }
 
-                this.board[row].splice(col, 1, {
-                    number: "",
-                    selected: false,
-                    visited: true,
-                    correct: false,
-                });
+                this.setCell(row, col, "", false, true, false);
             }
 
             return false;
