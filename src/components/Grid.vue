@@ -1,9 +1,9 @@
 <template>
     <table class="mx-auto">
-        <tr v-for="row in 9" :key="'row-' + row">
+        <tr v-for="row in 9" :key="rowKey(row)">
             <cell
                 v-for="col in 9"
-                :key="'cell-' + row + col"
+                :key="cellKey(row, col)"
                 :cell="board[row - 1][col - 1]"
             ></cell>
         </tr>
@@ -22,6 +22,16 @@ export default {
 
     props: {
         board: Array,
+    },
+
+    methods: {
+        rowKey(row) {
+            return "row-" + row;
+        },
+
+        cellKey(row, col) {
+            return "cell-" + row + col;
+        },
     },
 };
 </script>

@@ -18,7 +18,6 @@
             </button>
 
             <dropdown
-                title="Difficulty"
                 :options="[
                     'Easy',
                     'Medium',
@@ -27,13 +26,14 @@
                     'Insane',
                     'Inhuman',
                 ]"
+                title="Difficulty"
                 event="change-difficulty"
                 @change-difficulty="createBoard($event)"
             ></dropdown>
 
             <dropdown
-                title="Speed"
                 :options="['Slow', 'Medium', 'Fast']"
+                title="Speed"
                 event="change-speed"
                 @change-speed="changeSpeed($event)"
             ></dropdown>
@@ -43,9 +43,7 @@
             <grid :board="board"></grid>
         </div>
 
-        <div class="flex justify-center mt-1">
-            {{ counter }}
-        </div>
+        <div class="flex justify-center mt-1" v-text="counter"></div>
     </div>
 </template>
 
@@ -94,8 +92,6 @@ export default {
         createBoard(difficulty = "Easy") {
             this.resolving = false;
             this.counter = 0;
-            this.board = [];
-
             this.board = {
                 Easy: sudoku.getEasy(),
                 Medium: sudoku.getMedium(),
@@ -161,9 +157,7 @@ export default {
 
             const [row, col] = this.empty();
 
-            if (row === -1) {
-                return true;
-            }
+            if (row === -1) return true;
 
             for (let i = 1; i < 10; i++) {
                 this.setCell(row, col, i.toString(), true, false, false);
@@ -175,11 +169,7 @@ export default {
                 if (this.check(i, row, col)) {
                     this.setCell(row, col, i, false, true, true);
 
-                    if (await this.solve()) {
-                        return true;
-                    }
-
-                    this.setCell(row, col, "", false, true, false);
+                    if (await this.solve()) return true;
                 }
 
                 this.setCell(row, col, "", false, true, false);

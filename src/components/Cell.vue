@@ -1,11 +1,12 @@
 <template>
     <td
-        class="bg-white border border-black w-8 h-8 sm:w-14 sm:h-14"
         :class="[colorCell]"
+        class="bg-white border border-black w-8 h-8 sm:w-14 sm:h-14"
     >
-        <div class="flex items-center justify-center">
-            <span>{{ cell.number }}</span>
-        </div>
+        <span
+            class="flex items-center justify-center"
+            v-text="cell.number"
+        ></span>
     </td>
 </template>
 
