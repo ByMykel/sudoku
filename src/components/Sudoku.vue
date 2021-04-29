@@ -1,7 +1,7 @@
 <template>
     <div class="mt-5">
         <div class="flex items-center justify-center my-3">
-            <button class="mr-2" @click="startResolving()">
+            <div class="mr-2 cursor-pointer" @click="startResolving()">
                 <svg
                     :class="[resolving ? 'text-green-500' : 'text-gray-800']"
                     class="w-10 h-10 hover:text-green-500"
@@ -15,7 +15,7 @@
                         clip-rule="evenodd"
                     ></path>
                 </svg>
-            </button>
+            </div>
 
             <dropdown
                 :options="[
