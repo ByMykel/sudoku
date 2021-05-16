@@ -42,8 +42,6 @@
         <div class="mx-auto w-auto">
             <grid :board="board"></grid>
         </div>
-
-        <div class="flex justify-center mt-1" v-text="counter"></div>
     </div>
 </template>
 
@@ -65,7 +63,6 @@ export default {
             board: [],
             resolving: false,
             speed: 300,
-            counter: 0,
         };
     },
 
@@ -91,7 +88,6 @@ export default {
 
         createBoard(difficulty = "Easy") {
             this.resolving = false;
-            this.counter = 0;
             this.board = {
                 Easy: sudoku.getEasy(),
                 Medium: sudoku.getMedium(),
@@ -153,8 +149,6 @@ export default {
         },
 
         async solve() {
-            this.counter++;
-
             const [row, col] = this.empty();
 
             if (row === -1) return true;
