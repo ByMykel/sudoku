@@ -9,7 +9,7 @@
         :style="{ width: size + 'px', height: size + 'px' }"
     >
         <span
-            class="flex items-center justify-center text-3xl text-gray-900 select-none "
+            class="flex items-center justify-center text-lg text-gray-900 select-none md:text-2xl lg:text-3xl sm:text-xl"
             v-text="cell.number"
         ></span>
     </div>
@@ -63,7 +63,7 @@ export default {
             );
             let width = parseInt((window.innerWidth - 20 + 8) / 9);
 
-            this.size = Math.min(height, width);
+            this.size = Math.max(Math.min(height, width), 25);
         },
     },
 };
