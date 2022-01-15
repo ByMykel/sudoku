@@ -1,6 +1,6 @@
 <template>
-    <div class="mt-5">
-        <div class="flex items-center justify-center my-3">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex items-center justify-center py-2">
             <div class="mr-2 cursor-pointer" @click="startResolving()">
                 <svg
                     :class="[resolving ? 'text-green-500' : 'text-gray-800']"
@@ -39,7 +39,7 @@
             ></dropdown>
         </div>
 
-        <div class="mx-auto w-auto">
+        <div class="mx-auto w-max">
             <grid :board="board"></grid>
         </div>
     </div>

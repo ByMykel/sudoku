@@ -1,13 +1,18 @@
 <template>
-    <td
-        :class="[colorCell]"
-        class="bg-white border border-black w-8 h-8 sm:w-14 sm:h-14"
+    <div
+        class="flex items-center justify-center bg-white border-2 border-gray-200 rounded-md "
+        :class="[
+            colorCell,
+            col % 3 === 0 ? ' border-r-4 border-gray-200' : '',
+            row % 3 === 0 ? ' border-b-4 border-gray-200' : '',
+        ]"
+        :style="{ width: size + 'px', height: size + 'px' }"
     >
         <span
-            class="flex items-center justify-center"
+            class="flex items-center justify-center text-3xl text-gray-900 select-none "
             v-text="cell.number"
         ></span>
-    </td>
+    </div>
 </template>
 
 <script>
@@ -16,23 +21,49 @@ export default {
 
     props: {
         cell: Object,
+        row: Number,
+        col: Number,
+    },
+
+    data() {
+        return {
+            size: 0,
+        };
+    },
+
+    mounted() {
+        this.sizePerCell();
+
+        addEventListener("resize", this.sizePerCell);
+        addEventListener("orientationchange", this.sizePerCell);
     },
 
     computed: {
         colorCell() {
             if (this.cell.selected) {
-                return "bg-yellow-200";
+                return "bg-yellow-400";
             }
 
             if (this.cell.visited && this.cell.correct) {
-                return "bg-green-200";
+                return "bg-green-400";
             }
 
             if (this.cell.visited && !this.cell.correct) {
-                return "bg-red-200";
+                return "bg-red-500";
             }
 
             return "";
+        },
+    },
+
+    methods: {
+        sizePerCell() {
+            let height = parseInt(
+                (Math.min(window.innerHeight - 200, 1152) + 8) / 9
+            );
+            let width = parseInt((window.innerWidth - 20 + 8) / 9);
+
+            this.size = Math.min(height, width);
         },
     },
 };

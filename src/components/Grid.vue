@@ -1,13 +1,13 @@
 <template>
-    <table class="mx-auto">
-        <tr v-for="row in 9" :key="rowKey(row)">
-            <cell
-                v-for="col in 9"
-                :key="cellKey(row, col)"
-                :cell="board[row - 1][col - 1]"
-            ></cell>
-        </tr>
-    </table>
+    <div class="grid grid-cols-9 border-2 border-gray-200">
+        <cell
+            v-for="index in 81"
+            :key="index"
+            :cell="board[row(index)][col(index)]"
+            :row="row(index) + 1"
+            :col="col(index) + 1"
+        ></cell>
+    </div>
 </template>
 
 <script>
@@ -25,12 +25,12 @@ export default {
     },
 
     methods: {
-        rowKey(row) {
-            return "row-" + row;
+        row(index) {
+            return parseInt((index + 8) / 9) - 1;
         },
 
-        cellKey(row, col) {
-            return "cell-" + row + col;
+        col(index) {
+            return (index % 9 === 0 ? 9 : index % 9) - 1;
         },
     },
 };

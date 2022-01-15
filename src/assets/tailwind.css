@@ -3,23 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-gray-200;
-  }
-
-  tr:nth-child(3n) {
-    border-bottom: 2px solid black;
-  }
-
-  tr:nth-child(3n + 1) {
-    border-top: 2px solid black;
-  }
-
-  td:nth-child(3n) {
-    border-right: 2px solid black;
-  }
-
-  td:nth-child(3n + 1) {
-    border-left: 2px solid black;
-  }
+    body {
+        @apply bg-gray-200;
+    }
 }
