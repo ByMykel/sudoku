@@ -1,24 +1,5 @@
-# sudoku
+### About Sudoku
 
-## Project setup
-```
-npm install
-```
+A visual representation of backtracking algorithm in sudoku game, built with VueJS.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://user-images.githubusercontent.com/38622893/149836592-f171d03e-005c-4fd6-832c-f9640a592db5.mp4
