@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex items-center justify-center bg-white border-2 border-gray-200 rounded-md "
+        class="flex items-center justify-center duration-300 bg-white border-2 border-gray-200 rounded-md "
         :class="[
             colorCell,
             col % 3 === 0 ? ' border-r-4 border-gray-200' : '',
@@ -49,7 +49,7 @@ export default {
             }
 
             if (this.cell.visited && !this.cell.correct) {
-                return "bg-red-500";
+                return "bg-red-400";
             }
 
             return "";
